@@ -1,3 +1,5 @@
+[extend]
+useDefault = true
 [[rules]]
 id = "generic-password"
 description = "Generic Password"
