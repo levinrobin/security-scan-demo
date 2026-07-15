@@ -1,0 +1,48 @@
+name: Security Scan
+on:
+ push:
+   branches:
+     - main
+     - develop
+ pull_request:
+   branches:
+     - main
+     - develop
+jobs:
+ security-scan:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout Repository
+       uses: actions/checkout@v4
+       with:
+         fetch-depth: 0
+     ####################################################
+     # Gitleaks Secret Scan
+     ####################################################
+     - name: Gitleaks Secret Scan
+       run: |
+         docker pull zricethezav/gitleaks:latest
+         docker run --rm \
+           -v "${{ github.workspace }}:/repo" \
+           zricethezav/gitleaks:latest \
+           detect --source /repo \ --config /security-scan-demo/.gitleaks.toml --no-git --verbose --exit-code 1
+     ####################################################
+     # Install Trivy
+     ####################################################
+     - name: Install Trivy
+       run: |
+         sudo apt-get update
+         sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+         wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | \
+           gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg >/dev/null
+         echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | \
+           sudo tee /etc/apt/sources.list.d/trivy.list
+         sudo apt-get update
+         sudo apt-get install -y trivy
+         trivy --version
+     ####################################################
+     # Trivy Filesystem Scan
+     ####################################################
+     - name: Trivy Filesystem Scan
+       run: |
+         trivy fs --severity HIGH,CRITICAL --exit-code 1 .
