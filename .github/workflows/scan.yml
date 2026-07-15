@@ -2,12 +2,10 @@ name: Security Scan
 on:
  push:
    branches:
-     - main
-     - develop
+     - test
  pull_request:
    branches:
-     - main
-     - develop
+     - test
 jobs:
  security-scan:
    runs-on: ubuntu-latest
