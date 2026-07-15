@@ -25,7 +25,7 @@ jobs:
          docker run --rm \
            -v "${{ github.workspace }}:/repo" \
            ghcr.io/betterleaks/betterleaks:latest \
-           dir /repo \ --config /security-scan-demo/.betterleaks.toml \ -v
+           dir /security-scan-demo \ --config /security-scan-demo/.betterleaks.toml \ -v
      ####################################################
      # Gitleaks Secret Scan
      ####################################################
@@ -35,7 +35,7 @@ jobs:
          docker run --rm \
            -v "${{ github.workspace }}:/repo" \
            zricethezav/gitleaks:latest \
-           detect --source /repo \ --config /security-scan-demo/.gitleaks.toml --no-git --verbose --exit-code 1
+           detect --source /security-scan-demo \ --config /security-scan-demo/.gitleaks.toml --no-git --verbose --exit-code 1
      ####################################################
      # Install Trivy
      ####################################################
