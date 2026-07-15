@@ -25,7 +25,7 @@ jobs:
          docker run --rm \
            -v "${{ github.workspace }}:/repo" \
            ghcr.io/betterleaks/betterleaks:latest \
-           dir /security-scan-demo \ --config /security-scan-demo/.betterleaks.toml \ -v
+           dir /repo -v
      ####################################################
      # Gitleaks Secret Scan
      ####################################################
