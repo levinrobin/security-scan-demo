@@ -1,0 +1,5 @@
+[[rules]]
+id = "generic-password"
+description = "Detect generic passwords"
+regex = '''(?i)(password|passwd|pwd|db_password|dbpasswd|jwt_secret|secret|api_key)\s*[:=]\s*["']?[^\s"']+'''
+tags = ["password", "secret"]
