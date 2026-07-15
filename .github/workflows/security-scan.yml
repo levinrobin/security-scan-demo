@@ -17,16 +17,6 @@ jobs:
        with:
          fetch-depth: 0
      ####################################################
-     # Betterleaks Secret Scan
-     ####################################################
-     - name: Betterleaks Secret Scan
-       run: |
-         docker pull ghcr.io/betterleaks/betterleaks:latest
-         docker run --rm \
-           -v "${{ github.workspace }}:/repo" \
-           ghcr.io/betterleaks/betterleaks:latest \
-           dir /security-scan-demo \ --config /security-scan-demo/.betterleaks.toml \ -v
-     ####################################################
      # Gitleaks Secret Scan
      ####################################################
      - name: Gitleaks Secret Scan
